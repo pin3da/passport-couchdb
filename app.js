@@ -11,25 +11,31 @@ var users = require('./routes/users');
 
 // passport stuff
 var passport = require('passport'),
-    flash 	 = require('connect-flash')
+    flash    = require('connect-flash')
     LocalStrategy = require('passport-local').Strategy;
 
+var env    = process.env.NODE_ENV || 'development',
+    config = require('./config/' + env + '.js'),
+    resourceful  = require('resourceful');
 
-var users = [
+
+var User = require('./models/user');
+
+/*var users = [
     { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' }
   , { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
-];
+];*/
 
-function findById(id, fn) {
+/*function findById(id, fn) {
   var idx = id - 1;
   if (users[idx]) {
     fn(null, users[idx]);
   } else {
     fn(new Error('User ' + id + ' does not exist'));
   }
-}
+}*/
 
-function findByUsername(username, fn) {
+/*function findByUsername(username, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
     if (user.username === username) {
@@ -37,16 +43,19 @@ function findByUsername(username, fn) {
     }
   }
   return fn(null, null);
-}
+}*/
 
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  findById(id, function (err, user) {
-    done(err, user);
+  User.find({_id : id},function (err, user) {
+    if (err || user.length == 0)
+      done(err, null);
+    else
+      done(err, user[0]);
   });
 });
 
@@ -59,9 +68,11 @@ passport.use(new LocalStrategy(
       // username, or the password is not correct, set the user to `false` to
       // indicate failure and set a flash message. Otherwise, return the
       // authenticated `user`.
-      findByUsername(username, function(err, user) {
+
+      User.find( {name : username}, function(err, user) {
         if (err) { return done(err); }
-        if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+        if (!user || user.lengh == 0) { return done(null, false, { message: 'Unknown user ' + username }); }
+        user = user[0];
         if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
         return done(null, user);
       })
@@ -120,6 +131,8 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+resourceful.use('couchdb', {database: config.database});
 
 
 module.exports = app;
