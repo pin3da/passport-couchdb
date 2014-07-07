@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Passport-Local Example</title>
-  </head>
-  <body>
-    <% if (!user) { %>
-      <p>
-        <a href="/">Home</a> |
-        <a href="/login">Log In</a>
-      </p>
-    <% } else { %>
-      <p>
-        <a href="/">Home</a> |
-        <a href="/account">Account</a> |
-        <a href="/logout">Log Out</a>
-      </p>
-    <% } %>
-    <% if (!user) { %>
-      <h2>Welcome! Please log in.</h2>
-    <% } else { %>
-      <h2>Hello, <%= user.name %>.</h2>
-    <% } %>
-    </body>
-</html>
+<% layout('layout') -%>
 
+<% if (!user) { %>
+  <h2>Welcome! Please log in.</h2>
+<% } else { %>
+   <h2>Hello, <%= user.username %>.</h2>
+<% } %>

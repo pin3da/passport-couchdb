@@ -4,18 +4,24 @@
     <title>Passport-Local Example</title>
   </head>
   <body>
-    <% if (!user) { %>
-      <p>
-        <a href="/">Home</a> |
-        <a href="/login">Log In</a>
-      </p>
-    <% } else { %>
+    <% if (typeof user == 'object' && user) { %>
       <p>
         <a href="/">Home</a> |
         <a href="/account">Account</a> |
         <a href="/logout">Log Out</a>
       </p>
+    <% } else { %>
+      <p>
+        <a href="/">Home</a> |
+        <a href="/login">Log In</a> |
+        <a href="/signup"> Sign Up </a>
+      </p>
     <% } %>
+
+    <% if (typeof message == 'object' && message) { %>
+      <p><%= message %></p>
+    <% } %>
+
     <%- body %>
-    </body>
+  </body>
 </html>

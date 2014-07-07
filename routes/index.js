@@ -1,12 +1,16 @@
+var User = require('../models/user');
+
 module.exports = function(app, passport) {
 
 
-  // show the home page (will also have our login links)
   app.get('/', function(req, res) {
     res.render('index.ejs', {user : req.user});
   });
 
-  // LOGOUT ==============================
+  app.get('/account', function(req, res) {
+    res.render('account.ejs', {user : req.user});
+  });
+
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -27,11 +31,16 @@ module.exports = function(app, passport) {
   });
 
   // process the signup form
-  app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/',
-    failureRedirect : '/signup', // redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-  }));
+  app.post('/signup', function(req, res) {
+    User.create(req.body.user, function(err, data) {
+      if (err) {
+        console.log('Error : ', err);
+        res.send(500, err);
+      } else {
+        res.redirect('/');
+      }
+    });
+  });
 
 
 };

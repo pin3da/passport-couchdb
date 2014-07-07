@@ -1,7 +1,7 @@
 0 info it worked if it ends with ok
 1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
-2 info using npm@1.4.3
-3 info using node@v0.10.26
+2 info using npm@1.4.14
+3 info using node@v0.10.29
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info prestart application-name@0.0.1
 6 info start application-name@0.0.1
@@ -17,10 +17,10 @@
 10 error You can get their info via:
 10 error     npm owner ls application-name
 10 error There is likely additional logging output above.
-11 error System Linux 3.13-1-amd64
+11 error System Linux 3.13.5
 12 error command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
-13 error cwd /home/manuel/Documents/base/passport-couchdb
-14 error node -v v0.10.26
-15 error npm -v 1.4.3
+13 error cwd /home/pin3da/node/passport-couchdb
+14 error node -v v0.10.29
+15 error npm -v 1.4.14
 16 error code ELIFECYCLE
 17 verbose exit [ 1, true ]
